@@ -1,29 +1,154 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { FaCartPlus } from 'react-icons/fa6'
+import { RxCross1 } from 'react-icons/rx'
+import { FaPlus, FaMinus } from 'react-icons/fa'
 
 const Navbar = () => {
+  const [isCartOpen, setIsCartOpen] = useState(false)
+
+  const toggleCart = () => {
+    setIsCartOpen(!isCartOpen)
+  }
   return (
     <div>
-<header className="text-gray-600 body-font">
-  <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-    <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-10 h-10 text-white p-2 bg-red-500 rounded-full" viewBox="0 0 24 24">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-      </svg>
-      <span className="ml-3 text-xl">&lt;/devkart&gt;</span>
-    </a>
-    <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
-      <a className="mr-5 hover:text-gray-900">First Link</a>
-      <a className="mr-5 hover:text-gray-900">Second Link</a>
-      <a className="mr-5 hover:text-gray-900">Third Link</a>
-      <a className="mr-5 hover:text-gray-900">Fourth Link</a>
-    </nav>
-    <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Button
-      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
-        <path d="M5 12h14M12 5l7 7-7 7"></path>
-      </svg>
-    </button>
-  </div>
-</header>
+      <header className='text-gray-600 body-font'>
+        <div className='container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center'>
+          <Link
+            href='/'
+            className='flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0'
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              stroke='currentColor'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth='2'
+              className='w-10 h-10 text-white p-2 bg-red-500 rounded-full'
+              viewBox='0 0 24 24'
+            >
+              <path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'></path>
+            </svg>
+            <span className='ml-3 text-xl'>&lt;/devkart&gt;</span>
+          </Link>
+          <nav className='md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center'>
+            <Link href='/tshirts' className='mr-5 hover:text-gray-900'>
+              T-shirts
+            </Link>
+            <Link href='/hoodies' className='mr-5 hover:text-gray-900'>
+              Hoodies
+            </Link>
+            <Link href='/mugs' className='mr-5 hover:text-gray-900'>
+              Mugs
+            </Link>
+            <Link href='/stickers' className='mr-5 hover:text-gray-900'>
+              Stickers
+            </Link>
+          </nav>
+
+          {/* <button className="inline-flex items-center bg-gray-100 relative border-0 py-2 px-2 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 mx-2">
+  <FaCartPlus />
+  <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full px-1 py-0 text-xs">5</span>
+</button> */}
+
+          <div className='relative'>
+            <button
+              className='inline-flex items-center bg-gray-100 relative border-0 py-2 px-2 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 mx-2'
+              onClick={toggleCart}
+            >
+              <FaCartPlus />
+              <span className='absolute top-0 right-0 bg-red-500 text-white rounded-full px-1 py-0 text-xs'>
+                0
+              </span>
+            </button>
+            {isCartOpen && (
+              <div className='fixed top-0 right-0 bottom-0 bg-white shadow-lg p-4 w-[360px] z-10	'>
+                <div className='flex justify-between items-center mb-4'>
+                  <h2 className='text-lg font-bold'>Your Cart</h2>
+                  <button className='text-gray-600' onClick={toggleCart}>
+                    <RxCross1 />
+                  </button>
+                </div>
+                {/* Cart content goes here */}
+
+                <div className='flex justify-between items-center mb-2 rounded-lg p-2 shadow-lg'>
+                  <img
+                    src='/tshirt.jpg'
+                    alt='Product Image'
+                    className='w-12 h-12 mr-2'
+                  />
+                  <div style={{ fontWeight: 'normal', fontSize: '15px' }}>
+                    <p>1. this is the name</p>
+                  </div>
+                  <div className='flex items-center  square-full bg-gray-100 px-2 py-0'>
+                    <button className='rounded-full  p-0'>
+                      <FaMinus />
+                    </button>
+                    <span className='mx-2  px-2 bg-white'>0</span>
+                    <button className='rounded-full  p-0'>
+                      <FaPlus />
+                    </button>
+                  </div>
+                </div>
+
+                <div className='flex justify-between items-center mb-2  rounded-lg p-2 shadow-lg'>
+                  <img
+                    src='/tshirt.jpg'
+                    alt='Product Image'
+                    className='w-12 h-12 mr-2'
+                  />
+                  <div style={{ fontWeight: 'normal', fontSize: '15px' }}>
+                    <p>1. this is the name</p>
+                  </div>
+                  <div className='flex items-center  square-full bg-gray-100 px-2 py-0'>
+                    <button className='rounded-full  p-0'>
+                      <FaMinus />
+                    </button>
+                    <span className='mx-2  px-2 bg-white'>0</span>
+                    <button className='rounded-full  p-0'>
+                      <FaPlus />
+                    </button>
+                  </div>
+                </div>
+
+                <h2
+                  className='mx-2 mt-6'
+                  style={{ fontWeight: 'bold', fontSize: '16px' }}
+                >
+                  Subtotal : 400
+                </h2>
+
+                <br />
+                <button className='m-2 inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded'>
+                  Checkout
+                </button>
+                <button className='inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded'>
+                  Clear
+                </button>
+              </div>
+            )}
+          </div>
+
+          <Link
+            href='/login'
+            className='inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0'
+          >
+            Login
+            <svg
+              fill='none'
+              stroke='currentColor'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth='2'
+              className='w-4 h-4 ml-1'
+              viewBox='0 0 24 24'
+            >
+              <path d='M5 12h14M12 5l7 7-7 7'></path>
+            </svg>
+          </Link>
+        </div>
+      </header>
     </div>
   )
 }

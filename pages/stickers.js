@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 
-const Tshirts = () => {
+const Stickers = () => {
   return (
     <div>
       <section className='text-gray-600 body-font'>
@@ -11,7 +11,7 @@ const Tshirts = () => {
               <a className='block relative h-49 rounded overflow-hidden'>
                 <Image
                   alt='ecommerce'
-                  src='/tshirt.jpg'
+                  src='/sticker.jpg'
                   width={300}
                   height={100}
                 />
@@ -25,7 +25,7 @@ const Tshirts = () => {
                 </h2>
                 <p className='mt-1'>$16.00</p>
 
-                <div className='space-x-1 cursor-pointer'>
+                <div className='space-x-1'>
                   <div className='inline-block box-border border-2 p-2 text-sm'>
                     S
                   </div>
@@ -48,7 +48,7 @@ const Tshirts = () => {
               <a className='block relative h-49 rounded overflow-hidden'>
                 <Image
                   alt='ecommerce'
-                  src='/tshirt.jpg'
+                  src='/sticker.jpg'
                   width={300}
                   height={100}
                 />
@@ -61,7 +61,7 @@ const Tshirts = () => {
                   The Catalyzer
                 </h2>
                 <p className='mt-1'>$16.00</p>
-                <div className='space-x-1 cursor-pointer'>
+                <div className='space-x-1'>
                   <div className='inline-block box-border border-2 p-2 text-sm'>
                     S
                   </div>
@@ -84,7 +84,7 @@ const Tshirts = () => {
               <a className='block relative h-49 rounded overflow-hidden'>
                 <Image
                   alt='ecommerce'
-                  src='/tshirt.jpg'
+                  src='/sticker.jpg'
                   width={300}
                   height={100}
                 />
@@ -97,7 +97,7 @@ const Tshirts = () => {
                   The Catalyzer
                 </h2>
                 <p className='mt-1'>$16.00</p>
-                <div className='space-x-1 cursor-pointer'>
+                <div className='space-x-1'>
                   <div className='inline-block box-border border-2 p-2 text-sm'>
                     S
                   </div>
@@ -120,7 +120,7 @@ const Tshirts = () => {
               <a className='block relative h-49 rounded overflow-hidden'>
                 <Image
                   alt='ecommerce'
-                  src='/tshirt.jpg'
+                  src='/sticker.jpg'
                   width={300}
                   height={100}
                 />
@@ -133,7 +133,7 @@ const Tshirts = () => {
                   The Catalyzer
                 </h2>
                 <p className='mt-1'>$16.00</p>
-                <div className='space-x-1 cursor-pointer'>
+                <div className='space-x-1'>
                   <div className='inline-block box-border border-2 p-2 text-sm'>
                     S
                   </div>
@@ -156,7 +156,7 @@ const Tshirts = () => {
               <a className='block relative h-49 rounded overflow-hidden'>
                 <Image
                   alt='ecommerce'
-                  src='/tshirt.jpg'
+                  src='/sticker.jpg'
                   width={300}
                   height={100}
                 />
@@ -169,7 +169,7 @@ const Tshirts = () => {
                   The Catalyzer
                 </h2>
                 <p className='mt-1'>$16.00</p>
-                <div className='space-x-1 cursor-pointer'>
+                <div className='space-x-1'>
                   <div className='inline-block box-border border-2 p-2 text-sm'>
                     S
                   </div>
@@ -192,7 +192,7 @@ const Tshirts = () => {
               <a className='block relative h-49 rounded overflow-hidden'>
                 <Image
                   alt='ecommerce'
-                  src='/tshirt.jpg'
+                  src='/sticker.jpg'
                   width={300}
                   height={100}
                 />
@@ -205,7 +205,7 @@ const Tshirts = () => {
                   The Catalyzer
                 </h2>
                 <p className='mt-1'>$16.00</p>
-                <div className='space-x-1 cursor-pointer'>
+                <div className='space-x-1'>
                   <div className='inline-block box-border border-2 p-2 text-sm'>
                     S
                   </div>
@@ -228,7 +228,7 @@ const Tshirts = () => {
               <a className='block relative h-49 rounded overflow-hidden'>
                 <Image
                   alt='ecommerce'
-                  src='/tshirt.jpg'
+                  src='/sticker.jpg'
                   width={300}
                   height={100}
                 />{' '}
@@ -241,7 +241,7 @@ const Tshirts = () => {
                   The Catalyzer
                 </h2>
                 <p className='mt-1'>$16.00</p>
-                <div className='space-x-1 cursor-pointer'>
+                <div className='space-x-1'>
                   <div className='inline-block box-border border-2 p-2 text-sm'>
                     S
                   </div>
@@ -264,7 +264,7 @@ const Tshirts = () => {
               <a className='block relative h-49 rounded overflow-hidden'>
                 <Image
                   alt='ecommerce'
-                  src='/tshirt.jpg'
+                  src='/sticker.jpg'
                   width={300}
                   height={100}
                 />{' '}
@@ -277,7 +277,7 @@ const Tshirts = () => {
                   The Catalyzer
                 </h2>
                 <p className='mt-1'>$16.00</p>
-                <div className='space-x-1 cursor-pointer'>
+                <div className='space-x-1'>
                   <div className='inline-block box-border border-2 p-2 text-sm'>
                     S
                   </div>
@@ -303,4 +303,4 @@ const Tshirts = () => {
   )
 }
 
-export default Tshirts
+export default Stickers
