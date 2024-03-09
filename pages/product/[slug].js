@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-const Slug = () => {
+const Slug = ({ addToCart }) => {
   const router = useRouter()
 
   const [pincode, setPincode] = useState('')
@@ -193,8 +193,23 @@ const Slug = () => {
                 <span className='title-font font-medium text-2xl text-gray-900'>
                   $58.00
                 </span>
-                <button className='flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded'>
-                  Button
+                <button className='flex ml-8 text-white bg-pink-500 border-0 py-2 px-2 focus:outline-none hover:bg-pink-600 rounded'>
+                  Buy Now
+                </button>{' '}
+                <button
+                  onClick={() => {
+                    addToCart({
+                      itemCode: '1234',
+                      qty: 2,
+                      price: 123,
+                      name: 't-shirts',
+                      size: 'M',
+                      variant: 'white'
+                    })
+                  }}
+                  className='flex ml-2 text-white bg-pink-500 border-0 py-2 px-2 focus:outline-none hover:bg-pink-600 rounded'
+                >
+                  Add to Cart
                 </button>
                 <button className='rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4'>
                   <svg

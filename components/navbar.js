@@ -4,7 +4,7 @@ import { FaCartPlus } from 'react-icons/fa6'
 import { RxCross1 } from 'react-icons/rx'
 import { FaPlus, FaMinus } from 'react-icons/fa'
 
-const Navbar = () => {
+const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
   const [isCartOpen, setIsCartOpen] = useState(false)
 
   const toggleCart = () => {
@@ -59,7 +59,7 @@ const Navbar = () => {
             >
               <FaCartPlus />
               <span className='absolute top-0 right-0 bg-red-500 text-white rounded-full px-1 py-0 text-xs'>
-                0
+                {Object.keys(cart).length}
               </span>
             </button>
             {isCartOpen && (
@@ -70,60 +70,80 @@ const Navbar = () => {
                     <RxCross1 />
                   </button>
                 </div>
-                {/* Cart content goes here */}
+                {Object.keys(cart).length === 0 && (
+                  <div className='my-2 mx-2 font-normal'>
+                    No items in the cart
+                  </div>
+                )}
 
-                <div className='flex justify-between items-center mb-2 rounded-lg p-2 shadow-lg'>
-                  <img
-                    src='/tshirt.jpg'
-                    alt='Product Image'
-                    className='w-12 h-12 mr-2'
-                  />
-                  <div style={{ fontWeight: 'normal', fontSize: '15px' }}>
-                    <p>1. this is the name</p>
-                  </div>
-                  <div className='flex items-center  square-full bg-gray-100 px-2 py-0'>
-                    <button className='rounded-full  p-0'>
-                      <FaMinus />
-                    </button>
-                    <span className='mx-2  px-2 bg-white'>0</span>
-                    <button className='rounded-full  p-0'>
-                      <FaPlus />
-                    </button>
-                  </div>
-                </div>
-
-                <div className='flex justify-between items-center mb-2  rounded-lg p-2 shadow-lg'>
-                  <img
-                    src='/tshirt.jpg'
-                    alt='Product Image'
-                    className='w-12 h-12 mr-2'
-                  />
-                  <div style={{ fontWeight: 'normal', fontSize: '15px' }}>
-                    <p>1. this is the name</p>
-                  </div>
-                  <div className='flex items-center  square-full bg-gray-100 px-2 py-0'>
-                    <button className='rounded-full  p-0'>
-                      <FaMinus />
-                    </button>
-                    <span className='mx-2  px-2 bg-white'>0</span>
-                    <button className='rounded-full  p-0'>
-                      <FaPlus />
-                    </button>
-                  </div>
-                </div>
+                {Object.keys(cart).map(keys => {
+                  return (
+                    <div
+                      key={keys}
+                      className='flex justify-between items-center mb-2 rounded-lg p-2 shadow-lg'
+                    >
+                      <img
+                        src='/tshirt.jpg'
+                        alt='Product Image'
+                        className='w-12 h-12 mr-2'
+                      />
+                      <div style={{ fontWeight: 'normal', fontSize: '15px' }}>
+                        <p>{cart[keys].name}</p>
+                      </div>
+                      <div className='flex items-center  square-full bg-gray-100 px-2 py-0'>
+                        <button
+                          onClick={() => {
+                            addToCart({
+                              itemCode: '1234',
+                              qty: -1,
+                              price: 123,
+                              name: 't-shirts',
+                              size: 'M',
+                              variant: 'white'
+                            })
+                          }}
+                          className='rounded-full  p-0'
+                        >
+                          <FaMinus />
+                        </button>
+                        <span className='mx-2  px-2 bg-white'>
+                          {cart[keys].qty}
+                        </span>
+                        <button
+                          onClick={() => {
+                            addToCart({
+                              itemCode: '1234',
+                              qty: 1,
+                              price: 123,
+                              name: 't-shirts',
+                              size: 'M',
+                              variant: 'white'
+                            })
+                          }}
+                          className='rounded-full  p-0'
+                        >
+                          <FaPlus />
+                        </button>
+                      </div>
+                    </div>
+                  )
+                })}
 
                 <h2
                   className='mx-2 mt-6'
                   style={{ fontWeight: 'bold', fontSize: '16px' }}
                 >
-                  Subtotal : 400
+                  Subtotal : {subTotal}
                 </h2>
 
                 <br />
                 <button className='m-2 inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded'>
                   Checkout
                 </button>
-                <button className='inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded'>
+                <button
+                  onClick={clearCart}
+                  className='inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded'
+                >
                   Clear
                 </button>
               </div>

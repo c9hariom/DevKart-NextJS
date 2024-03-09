@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 
-const Stickers = () => {
+const Stickers = ({addToCart}) => {
   return (
     <div>
       <section className='text-gray-600 body-font'>
