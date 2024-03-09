@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import Link from 'next/link';
 
 const Checkout = ({cart , subTotal}) => {
   let shipping = 8;
@@ -159,7 +160,7 @@ const Checkout = ({cart , subTotal}) => {
           <p className="text-2xl font-semibold text-gray-900">${subTotal+(+Object.keys(cart).length===0?0:8)}</p>
         </div>
       </div>
-      <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
+      <Link href="/order" ><button className="mt-4 mb-8 w-full rounded-md bg-red-500 px-6 py-3 font-medium text-white">Place Order</button></Link>
     </div>
   </div>
 
