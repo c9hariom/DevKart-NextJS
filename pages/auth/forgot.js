@@ -3,9 +3,9 @@ import React from 'react'
 
 const Forgot = () => {
   return (
-    <div>
+    <div className='container'>
       <section className="bg-white dark:bg-gray-900">
-    <div className="container flex flex-col items-center justify-center min-h-screen px-6 mx-auto">
+    <div className="shadow-lg  py-10 px-6 mx-10 ">
         
 
         <h1 className="mt-4 text-2xl font-semibold tracking-wide text-center text-gray-800 capitalize md:text-3xl dark:text-white">
