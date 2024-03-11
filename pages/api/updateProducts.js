@@ -6,6 +6,17 @@ const handler = async (req, res) => {
     try {
       await connectDb()
       for (let i = 0; i < req.body.length; i++) {
+        if (req.body[i].variants) {
+          let newQty = 0
+          for (let j = 0; j < req.body[i].variants.length; j++) {
+            let newKeys = Object.keys(req.body[i].variants[j].sizes)
+            newKeys.map(item => {
+              newQty += req.body[i].variants[j].sizes[item]
+            })
+          }
+          req.body[i].availableQty = newQty
+        }
+
         await Product.findByIdAndUpdate(req.body[i]._id, req.body[i])
       }
 

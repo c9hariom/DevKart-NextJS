@@ -24,25 +24,25 @@ const Tshirts = ({ products }) => {
                     />
                     <div className='mt-4 flex flex-col items-center justify-center'>
                       <h3 className='text-gray-500 text-xs tracking-widest title-font mb-1'>
-                        {item.category}{' '}
+                        {item.category}
                       </h3>
                       <h2 className='text-gray-900 title-font text-lg font-medium'>
-                        {item.title}{' '}
+                        {item.title}
                       </h2>
-                      <div class='flex flex-row justify-between items-center mb-2'>
-                        <div class='flex justify-start flex-wrap'>
-                          {item.color.split(',').map(item => {
+                      <div className='flex flex-row justify-between items-center mb-2'>
+                        <div className='flex justify-start flex-wrap'>
+                          {item.variants.map(item => {
                             return (
                               <div
-                                key={item}
-                                title={item}
-                                class={`w-3 h-3 border shadow-inner bg-${item}-700 rounded-full`}
+                                key={item.color}
+                                title={item.color}
+                                className={`w-3 h-3 border shadow-inner bg-${item.color}-700 rounded-full`}
                               ></div>
                             )
                           })}
                         </div>
-                        <div class='text-sm font-semibold'>
-                          <span class='line-through mx-2 text-gray-400'>
+                        <div className='text-sm font-semibold'>
+                          <span className='line-through mx-2 text-gray-400'>
                             ${item.price}
                           </span>
                           $
@@ -62,28 +62,38 @@ const Tshirts = ({ products }) => {
                         )
                       })} */}
 
-                        {item.size.includes('S') && (
+                        {item.variants.some(item => {
+                          return Object.keys(item.sizes).includes('S')
+                        }) && (
                           <div className='inline-block box-border border-2 px-2 py-2 text-sm'>
                             S
                           </div>
                         )}
 
-                        {item.size.includes('M') && (
+                        {item.variants.some(item => {
+                          return Object.keys(item.sizes).includes('M')
+                        }) && (
                           <div className='inline-block box-border border-2 px-2 py-2 text-sm'>
                             M
                           </div>
                         )}
-                        {item.size.includes('L') && (
+                        {item.variants.some(item => {
+                          return Object.keys(item.sizes).includes('L')
+                        }) && (
                           <div className='inline-block box-border border-2 px-2 py-2 text-sm'>
                             L
                           </div>
                         )}
-                        {item.size.includes('XL') && (
+                        {item.variants.some(item => {
+                          return Object.keys(item.sizes).includes('XL')
+                        }) && (
                           <div className='inline-block box-border border-2 px-2 py-2 text-sm'>
                             XL
                           </div>
                         )}
-                        {item.size.includes('XXL') && (
+                        {item.variants.some(item => {
+                          return Object.keys(item.sizes).includes('XXL')
+                        }) && (
                           <div className='inline-block box-border border-2 px-2 py-2 text-sm'>
                             XXL
                           </div>
