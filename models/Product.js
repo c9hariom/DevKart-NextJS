@@ -23,22 +23,27 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    size: {
-      type: String,
-      required: true
-    },
-    color: {
-      type: String,
-      required: true
-    },
     price: {
       type: Number,
       required: true
-    },
-    availableQty: {
+    },availableQty: {
       type: Number,
       required: true
-    }
+    },
+    variants: [
+      {
+        color: {
+          type: String,
+          required: true
+        },
+        sizes: {
+          type: Map, // Using Map to store size-quantity pairs
+          of: Number, // Values should be of type Number
+          required: true
+        },
+        images: [{ type: String }]
+      }
+    ]
   },
   { timestamps: true }
 )
