@@ -409,30 +409,33 @@ export const getServerSideProps = async context => {
     firstColor = null,
     firstMax = null
 
-  data.products[0].variants.forEach(item => {
-    let keys = Object.keys(item.sizes)
-    for (let i = 0; i < keys.length; i++) {
-      if (item.sizes[keys[i]] > 0) {
-        if (!colors[item.color]) {
-          if (firstColor === null) {
-            firstColor = item.color
+    const sizeOrder = ['S', 'M', 'L', 'XL', 'XXL'];
+
+    data.products[0].variants.forEach(item => {
+      let keys = Object.keys(item.sizes);
+      sizeOrder.forEach(size => {
+        if (keys.includes(size) && item.sizes[size] > 0) {
+          if (!colors[item.color]) {
+            if (firstColor === null) {
+              firstColor = item.color;
+            }
+            colors[item.color] = item.images;
           }
-          colors[item.color] = item.images
-        }
-        if (!sizes[item.color]) {
-          sizes[item.color] = {}
-        }
-        sizes[item.color][keys[i]] = item.sizes[keys[i]]
-        if (firstColor === item.color && firstSize === null) {
-          firstSize = keys[i]
-          if (firstMax === null) {
-            firstMax = item.sizes[keys[i]]
+          if (!sizes[item.color]) {
+            sizes[item.color] = {};
+          }
+          sizes[item.color][size] = item.sizes[size];
+          if (firstColor === item.color && firstSize === null) {
+            firstSize = size;
+            if (firstMax === null) {
+              firstMax = item.sizes[size];
+            }
           }
         }
-      }
-    }
-  })
-  console.log(firstSize)
+      });
+    });
+    
+
   let price = Math.floor(
     data.products[0].price -
       (data.products[0].price * data.products[0].discount) / 100
