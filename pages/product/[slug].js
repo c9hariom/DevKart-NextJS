@@ -32,7 +32,7 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
   }
 
   const [color, setColor] = useState(product.variants[0].color)
-  const [size, setSize] = useState(product.variants[0].sizes.M)
+  const [size, setSize] = useState()
   const [img, setImg] = useState(product.img)
   const [images, setImages] = useState(product.variants[0].images)
 
@@ -40,6 +40,10 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
     setColor(color)
     setImg(images[0])
     setImages(images)
+  }
+
+  const selectSize = size => {
+    setSize(size)
   }
 
   const showImage = image => {
@@ -218,7 +222,10 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
                 <div className='flex ml-6 items-center'>
                   <span className='mr-3'>Size</span>
                   <div className='relative'>
-                    <select className='rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10'>
+                    <select
+                      className='rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10'
+                      onChange={e => selectSize(e.target.value)}
+                    >
                       {Object.keys(sizes[color])
                         .sort((a, b) => {
                           // Define the order of sizes
@@ -227,7 +234,11 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
                         })
                         .map(sizeKey => {
                           if (sizes[color][sizeKey] > 0) {
-                            return <option key={sizeKey}>{sizeKey}</option>
+                            return (
+                              <option key={sizeKey} value={sizeKey}>
+                                {sizeKey}
+                              </option>
+                            )
                           }
                           return null // Return null for sizes with zero quantity
                         })}
