@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 const Slug = ({
   addToCart,
+  buyNow,
   product,
   colors,
   sizes,
@@ -118,10 +119,12 @@ const Slug = ({
 
             <div className='lg:w-5/12 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 px-4'>
               <h2 className='text-sm title-font text-gray-500 tracking-widest'>
-              {product.brand.slice(0,1).toUpperCase()+product.brand.slice(1)}
+                {product.brand.slice(0, 1).toUpperCase() +
+                  product.brand.slice(1)}
               </h2>
               <h1 className='text-gray-900 text-3xl title-font font-medium mb-1'>
-                {product.title} ({size}/{color.slice(0,1).toUpperCase()+color.slice(1)})
+                {product.title} ({size}/
+                {color.slice(0, 1).toUpperCase() + color.slice(1)})
               </h1>
               {/* Star rating icons and social sharing */}
               <div className='flex mb-4'>
@@ -338,7 +341,21 @@ const Slug = ({
 
               <hr className='mt-3' />
               <div className='flex mt-5'>
-                <button className='flex text-white bg-pink-500 border-0 py-2 px-5 focus:outline-none hover:bg-pink-600 rounded'>
+                <button
+                  className='flex text-white bg-pink-500 border-0 py-2 px-5 focus:outline-none hover:bg-pink-600 rounded'
+                  onClick={() => {
+                    buyNow({
+                      itemCode: product.slug,
+                      qty: 1,
+                      price,
+                      name: product.title,
+                      size: size,
+                      variant: color,
+                      img,
+                      max
+                    })
+                  }}
+                >
                   Buy Now
                 </button>
                 <button
@@ -415,7 +432,7 @@ export const getServerSideProps = async context => {
       }
     }
   })
-  console.log(firstMax)
+  console.log(firstSize)
   let price = Math.floor(
     data.products[0].price -
       (data.products[0].price * data.products[0].discount) / 100
