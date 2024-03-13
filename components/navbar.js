@@ -77,7 +77,7 @@ const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
                 )}
 
                 {Object.keys(cart).map(keys => {
-                  console.log(cart)
+                  // console.log(cart)
                   return (
                     <div
                       key={keys}
@@ -90,23 +90,20 @@ const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
                       />
                       <div style={{ fontWeight: 'normal', fontSize: '15px' }}>
                         <p>{cart[keys].name}</p>
-                        
-                      <div className='flex items-center  border-gray-100'>
-                <div className='flex'>
-                      <div>
-                        <button
-                          className={`border-2 rounded-full w-4 h-4 focus:outline-none`}
-                          style={{ backgroundColor: cart[keys].variant }}
-                        ></button>
+
+                        <div className='flex items-center  border-gray-100'>
+                          <div className='flex'>
+                            <div>
+                              <button
+                                className={`border-2 rounded-full w-4 h-4 focus:outline-none`}
+                                style={{ backgroundColor: cart[keys].variant }}
+                              ></button>
+                            </div>
+                          </div>
+                          <div className='mx-4'>{cart[keys].size}</div>
+                          <p className='mx-4'>${cart[keys].price}</p>
+                        </div>
                       </div>
-                </div>
-                <div className='mx-4'>{cart[keys].size}</div>
-                </div>
-
-                      </div>
-
-
-
 
                       <div className='flex items-center  square-full bg-gray-100 px-2 py-0'>
                         <button
@@ -120,7 +117,6 @@ const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
                               variant: cart[keys].variant,
                               img: cart[keys].img,
                               max: cart[keys].max
-
                             })
                           }}
                           className='rounded-full  p-0'
@@ -131,7 +127,7 @@ const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
                           {cart[keys].qty}
                         </span>
                         <button
-                        disabled={cart[keys].qty>=cart[keys].max}
+                          disabled={cart[keys].qty >= cart[keys].max}
                           onClick={() => {
                             addToCart({
                               itemCode: keys,
@@ -161,7 +157,10 @@ const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
                 </h2>
 
                 <br />
-                <Link href="/checkout" className='m-2 inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded'>
+                <Link
+                  href='/checkout'
+                  className='m-2 inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded'
+                >
                   Checkout
                 </Link>
                 <button

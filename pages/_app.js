@@ -28,15 +28,32 @@ export default function App ({ Component, pageProps }) {
     }
   }, [])
 
-  const addToCart = ({ itemCode, qty, price, name, size, variant, img, max }) => {
-    console.log({ itemCode, qty, price, name, size, variant, img, max })
-    if(qty>=max){
+  const addToCart = ({
+    itemCode,
+    qty,
+    price,
+    name,
+    size,
+    variant,
+    img,
+    max
+  }) => {
+    // console.log({ itemCode, qty, price, name, size, variant, img, max })
+    if (qty >= max) {
       return null
     }
 
     let newCart = { ...cart }
     if (!newCart[itemCode]) {
-      newCart[itemCode] = { qty, price, name, size, variant, img, max }
+      newCart[itemCode + '_2_' + variant + '_2_' + size] = {
+        qty,
+        price,
+        name,
+        size,
+        variant,
+        img,
+        max
+      }
     } else newCart[itemCode].qty += qty
 
     let keys = Object.keys(newCart)
@@ -45,12 +62,20 @@ export default function App ({ Component, pageProps }) {
         delete newCart[keys[i]]
       }
     }
-    // console.log(newCart)
     setCart(newCart)
     saveCart(newCart)
   }
 
-  const removeFromCart = (itemCode, qty, price, name, size, variant , img , max) => {
+  const removeFromCart = (
+    itemCode,
+    qty,
+    price,
+    name,
+    size,
+    variant,
+    img,
+    max
+  ) => {
     if (itemCode in cart) {
       newCart[itemCode].qty = newCart[itemCode].qty - qty
     }
@@ -66,8 +91,9 @@ export default function App ({ Component, pageProps }) {
     localStorage.setItem('cart', JSON.stringify(myCart))
     let subt = 0
     let keys = Object.keys(myCart)
+    // console.log(keys)
     for (let i = 0; i < keys.length; i++) {
-      subt = myCart[keys[i]].price * myCart[keys[i]].qty
+      subt += myCart[keys[i]].price * myCart[keys[i]].qty
     }
     // console.log(subt)
     setSubTotal(subt)
