@@ -1,7 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-const Slug = ({ addToCart, product, colors, sizes }) => {
-  reactStrictMode: false
+const Slug = ({
+  addToCart,
+  product,
+  colors,
+  sizes,
+  price,
+  firstColor,
+  firstSize,
+  firstMax
+}) => {
   const [pincode, setPincode] = useState('')
   const [badPin, setBadPin] = useState(true)
   const [pinStatus, setPinStatus] = useState({
@@ -31,10 +39,11 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
     setPincode(e.target.value)
   }
 
-  const [color, setColor] = useState(product.variants[0].color)
-  const [size, setSize] = useState()
+  const [color, setColor] = useState(firstColor)
+  const [size, setSize] = useState(firstSize)
   const [img, setImg] = useState(product.img)
   const [images, setImages] = useState(product.variants[0].images)
+  const [max, setMax] = useState(firstMax)
 
   const selectImage = (color, images) => {
     setColor(color)
@@ -42,13 +51,23 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
     setImages(images)
   }
 
-  const selectSize = size => {
+  const selectSize = (size, qt) => {
     setSize(size)
+    setMax(qt)
   }
 
   const showImage = image => {
     setImg(image)
   }
+  useEffect(() => {
+    if (color && sizes[color]) {
+      const availableSizes = Object.keys(sizes[color])
+      let quantity = 0
+      availableSizes.forEach(size => {
+        quantity = sizes[color][size]
+      })
+    }
+  }, [color, sizes, size])
 
   return (
     <div>
@@ -102,7 +121,7 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
                 {product.brand}
               </h2>
               <h1 className='text-gray-900 text-3xl title-font font-medium mb-1'>
-                {product.title}
+                {product.title} ({size}/{color})
               </h1>
               {/* Star rating icons and social sharing */}
               <div className='flex mb-4'>
@@ -230,7 +249,9 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
                   <div className='relative'>
                     <select
                       className='rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10'
-                      onChange={e => selectSize(e.target.value)}
+                      onChange={e =>
+                        selectSize(e.target.value, sizes[color][e.target.value])
+                      }
                     >
                       {Object.keys(sizes[color])
                         .sort((a, b) => {
@@ -272,10 +293,10 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
                   className='title-font font-medium text-2xl text-gray-900 flex py-2 px-5 focus:outline-none rounded'
                   style={{ textDecoration: 'line-through', opacity: 0.6 }}
                 >
-                  $68.00
+                  ${product.price}
                 </span>
                 <span className='title-font font-medium text-2xl text-black-1000 flex py-2 px-5 focus:outline-none rounded'>
-                  $58.00
+                  ${price}
                   <sup style={{ fontSize: '1rem', fontWeight: 'normal' }}>
                     (Free Shipping)
                   </sup>
@@ -319,10 +340,19 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
               <div className='flex mt-5'>
                 <button className='flex text-white bg-pink-500 border-0 py-2 px-5 focus:outline-none hover:bg-pink-600 rounded'>
                   Buy Now
-                </button>{' '}
+                </button>
                 <button
                   onClick={() => {
-                    // Add to cart functionality
+                    addToCart({
+                      itemCode: product.slug,
+                      qty: 1,
+                      price,
+                      name: product.title,
+                      size: size,
+                      variant: color,
+                      img,
+                      max
+                    })
                   }}
                   className='flex ml-5 text-white bg-pink-500 border-0 py-2 px-5 focus:outline-none hover:bg-pink-600 rounded'
                 >
@@ -358,13 +388,50 @@ export const getServerSideProps = async context => {
 
   let colors = {}
   let sizes = {}
+  let firstSize = null,
+    firstColor = null,
+    firstMax = null
 
-  data.products[0].variants.map(item => {
-    colors[item.color] = item.images
-    sizes[item.color] = item.sizes
+  data.products[0].variants.forEach(item => {
+    let keys = Object.keys(item.sizes)
+    for (let i = 0; i < keys.length; i++) {
+      if (item.sizes[keys[i]] > 0) {
+        if (!colors[item.color]) {
+          if (firstColor === null) {
+            firstColor = item.color
+          }
+          colors[item.color] = item.images
+        }
+        if (!sizes[item.color]) {
+          sizes[item.color] = {}
+        }
+        sizes[item.color][keys[i]] = item.sizes[keys[i]]
+        if (firstColor === item.color && firstSize === null) {
+          firstSize = keys[i]
+          if (firstMax === null) {
+            firstMax = item.sizes[keys[i]]
+          }
+        }
+      }
+    }
   })
+  console.log(firstMax)
+  let price = Math.floor(
+    data.products[0].price -
+      (data.products[0].price * data.products[0].discount) / 100
+  )
   // Pass data to the page via props
-  return { props: { product: data.products[0], colors, sizes } }
+  return {
+    props: {
+      product: data.products[0],
+      colors,
+      sizes,
+      price,
+      firstSize,
+      firstColor,
+      firstMax
+    }
+  }
 }
 
 export default Slug

@@ -28,11 +28,15 @@ export default function App ({ Component, pageProps }) {
     }
   }, [])
 
-  const addToCart = ({ itemCode, qty, price, name, size, variant }) => {
-    // console.log(typeof(price))
+  const addToCart = ({ itemCode, qty, price, name, size, variant, img, max }) => {
+    console.log({ itemCode, qty, price, name, size, variant, img, max })
+    if(qty>=max){
+      return null
+    }
+
     let newCart = { ...cart }
     if (!newCart[itemCode]) {
-      newCart[itemCode] = { qty, price, name, size, variant }
+      newCart[itemCode] = { qty, price, name, size, variant, img, max }
     } else newCart[itemCode].qty += qty
 
     let keys = Object.keys(newCart)
@@ -41,12 +45,12 @@ export default function App ({ Component, pageProps }) {
         delete newCart[keys[i]]
       }
     }
-
+    // console.log(newCart)
     setCart(newCart)
     saveCart(newCart)
   }
 
-  const removeFromCart = (itemCode, qty, price, name, size, variant) => {
+  const removeFromCart = (itemCode, qty, price, name, size, variant , img , max) => {
     if (itemCode in cart) {
       newCart[itemCode].qty = newCart[itemCode].qty - qty
     }
