@@ -8,7 +8,7 @@ const handler = async (req, res) => {
       await connectDb()
 
       // Parse query parameters
-      let { page, count } = req.query
+      let { page, count , category } = req.query
       page = parseInt(page) || 1 // Default to page 1 if not provided
       count = parseInt(count) || 8 // Default to 8 if not provided
 
@@ -16,7 +16,7 @@ const handler = async (req, res) => {
       const skip = (page - 1) * count
 
       // Fetch products from the database based on pagination
-      const products = await Product.find({ availableQty: { $gt: 0 } })
+      const products = await Product.find({ availableQty: { $gt: 0 }, category })
         .skip(skip)
         .limit(count)
 
@@ -36,6 +36,7 @@ const handler = async (req, res) => {
           results: products.length,
           totalPages,
           currentPage: page,
+          category,
           products
         })
     } catch (error) {
