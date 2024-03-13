@@ -62,10 +62,15 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
                     onClick={() => {
                       showImage(image)
                     }}
+                    className={`${
+                      img === image
+                        ? 'border-gray border-2'
+                        : 'border-black border-0'
+                    }`}
                   >
                     <img
                       alt='Product'
-                      className='object-cover object-center rounded border-x border-y mx-1 my-1'
+                      className='object-cover object-center rounded  mx-1 my-1'
                       src={image}
                       width={70}
                     />
@@ -207,10 +212,11 @@ const Slug = ({ addToCart, product, colors, sizes }) => {
                     return (
                       <div key={index}>
                         <button
-                          className={
-                            index +
-                            ' border-2 border-gray-300 rounded-full w-8 h-8 focus:outline-none'
-                          }
+                          className={`border-2 border-gray-300 rounded-full w-8 h-8 focus:outline-none ${
+                            color === item
+                              ? 'border-black border-4'
+                              : 'border-gray border-1'
+                          }`}
                           style={{ backgroundColor: item }}
                           onClick={() => selectImage(item, colors[item])}
                         ></button>
