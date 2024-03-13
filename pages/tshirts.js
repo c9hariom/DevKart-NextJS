@@ -37,6 +37,7 @@ const Tshirts = ({ products }) => {
                                 key={item.color}
                                 title={item.color}
                                 className={`w-3 h-3 border shadow-inner bg-${item.color}-700 rounded-full`}
+                                style={{ backgroundColor: item.color }}
                               ></div>
                             )
                           })}
