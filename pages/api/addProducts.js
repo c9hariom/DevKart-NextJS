@@ -10,7 +10,7 @@ const handler = async (req, res) => {
       let addStatus = {}
 
       for (let i = 0; i < req.body.length; i++) {
-        const { slug, title, desc, img, category, price, discount, variants } =
+        const { slug, brand,title, desc, img, category, price, discount, variants } =
           req.body[i]
 
         let availableQty = 0
@@ -41,7 +41,8 @@ const handler = async (req, res) => {
           price,
           discount,
           variants,
-          availableQty
+          availableQty,
+          brand
         })
 
         // Save the product to the database

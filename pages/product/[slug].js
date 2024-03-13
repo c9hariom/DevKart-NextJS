@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import React, { useState } from 'react'
 
-const Slug = ({ addToCart }) => {
-  const router = useRouter()
-
+const Slug = ({ addToCart, product, colors, sizes }) => {
+  reactStrictMode: false
   const [pincode, setPincode] = useState('')
   const [badPin, setBadPin] = useState(true)
   const [pinStatus, setPinStatus] = useState({
@@ -29,28 +27,75 @@ const Slug = ({ addToCart }) => {
       msg: data.msg
     })
   }
-
   const changeHandlerPincode = e => {
     setPincode(e.target.value)
+  }
+
+  const [color, setColor] = useState(product.variants[0].color)
+  const [size, setSize] = useState(product.variants[0].sizes.M)
+  const [img, setImg] = useState(product.img)
+  const [images, setImages] = useState(product.variants[0].images)
+
+  const selectImage = (color, images) => {
+    setColor(color)
+    setImg(images[0])
+    setImages(images)
+  }
+
+  const showImage = image => {
+    setImg(image)
   }
 
   return (
     <div>
       <section className='text-gray-600 body-font overflow-hidden'>
         <div className='container py-4 mx-auto'>
-          <div className='lg:w-4/5 mx-10 flex flex-wrap'>
-            <img
-              alt='ecommerce'
-              className='lg:w-1/2 w-full lg:h-auto  object-cover object-center rounded'
-              src='/tshirt.jpg'
-            />
-            <div className='lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0'>
+          <div className='w-full  flex flex-wrap'>
+            <div className='lg:w-1/12 flex flex-wrap justify-center lg:justify-start m-auto '>
+              {images.map((image, index) => (
+                <React.Fragment key={index}>
+                  <button
+                    onClick={() => {
+                      showImage(image)
+                    }}
+                  >
+                    <img
+                      alt='Product'
+                      className='object-cover object-center rounded border-x border-y mx-1 my-1'
+                      src={image}
+                      width={70}
+                    />
+                  </button>
+                </React.Fragment>
+              ))}
+            </div>
+
+            <div className='object-cover object-center w-full  rounded lg:hidden'>
+              <img
+                alt='Product'
+                src={img}
+
+                // Hide on lg screens
+              />
+            </div>
+
+            <div className=' overflow-hidden object-cover object-center rounded hidden lg:block m-auto'>
+              <img
+                alt='Product'
+                src={img}
+                style={{ maxHeight: 600, maxWidth: 500 }}
+              />
+              {/* hide on small screens */}
+            </div>
+
+            <div className='lg:w-5/12 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 px-4'>
               <h2 className='text-sm title-font text-gray-500 tracking-widest'>
-                BRAND NAME
+                {product.brand}
               </h2>
               <h1 className='text-gray-900 text-3xl title-font font-medium mb-1'>
-                The Catcher in the Rye
+                {product.title}
               </h1>
+              {/* Star rating icons and social sharing */}
               <div className='flex mb-4'>
                 <span className='flex items-center'>
                   <svg
@@ -59,7 +104,7 @@ const Slug = ({ addToCart }) => {
                     strokeLinecap='round'
                     strokeLinejoin='round'
                     strokeWidth='2'
-                    className='w-4 h-4 text-pink-500'
+                    className='w-4 h-4 text-red-500'
                     viewBox='0 0 24 24'
                   >
                     <path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'></path>
@@ -70,7 +115,7 @@ const Slug = ({ addToCart }) => {
                     strokeLinecap='round'
                     strokeLinejoin='round'
                     strokeWidth='2'
-                    className='w-4 h-4 text-pink-500'
+                    className='w-4 h-4 text-red-500'
                     viewBox='0 0 24 24'
                   >
                     <path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'></path>
@@ -81,7 +126,7 @@ const Slug = ({ addToCart }) => {
                     strokeLinecap='round'
                     strokeLinejoin='round'
                     strokeWidth='2'
-                    className='w-4 h-4 text-pink-500'
+                    className='w-4 h-4 text-red-500'
                     viewBox='0 0 24 24'
                   >
                     <path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'></path>
@@ -92,7 +137,7 @@ const Slug = ({ addToCart }) => {
                     strokeLinecap='round'
                     strokeLinejoin='round'
                     strokeWidth='2'
-                    className='w-4 h-4 text-pink-500'
+                    className='w-4 h-4 text-red-500'
                     viewBox='0 0 24 24'
                   >
                     <path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'></path>
@@ -103,7 +148,7 @@ const Slug = ({ addToCart }) => {
                     strokeLinecap='round'
                     strokeLinejoin='round'
                     strokeWidth='2'
-                    className='w-4 h-4 text-pink-500'
+                    className='w-4 h-4 text-red-500'
                     viewBox='0 0 24 24'
                   >
                     <path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'></path>
@@ -149,29 +194,43 @@ const Slug = ({ addToCart }) => {
                   </a>
                 </span>
               </div>
-              <p className='leading-relaxed'>
-                Fam locavore kickstarter distillery. Mixtape chillwave tumeric
-                sriracha taximy chia microdosing tilde DIY. XOXO fam indxgo
-                juiceramps cornhole raw denim forage brooklyn. Everyday carry +1
-                seitan poutine tumeric. Gastropub blue bottle austin listicle
-                pour-over, neutra jean shorts keytar banjo tattooed umami
-                cardigan.
-              </p>
+              <p className='leading-relaxed'>{product.desc}</p>
               <div className='flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5'>
                 <div className='flex'>
-                  <span className='mr-3'>Color</span>
-                  <button className='border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none'></button>
-                  <button className='border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none'></button>
-                  <button className='border-2 border-gray-300 ml-1 bg-pink-500 rounded-full w-6 h-6 focus:outline-none'></button>
+                  <span className='mr-2 mt-1'>Color</span>
+
+                  {Object.keys(colors).map((item, index) => {
+                    return (
+                      <div key={index}>
+                        <button
+                          className={
+                            index +
+                            ' border-2 border-gray-300 rounded-full w-8 h-8 focus:outline-none'
+                          }
+                          style={{ backgroundColor: item }}
+                          onClick={() => selectImage(item, colors[item])}
+                        ></button>
+                      </div>
+                    )
+                  })}
                 </div>
+                {/* Size selector */}
                 <div className='flex ml-6 items-center'>
                   <span className='mr-3'>Size</span>
                   <div className='relative'>
                     <select className='rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10'>
-                      <option>SM</option>
-                      <option>M</option>
-                      <option>L</option>
-                      <option>XL</option>
+                      {Object.keys(sizes[color])
+                        .sort((a, b) => {
+                          // Define the order of sizes
+                          const sizeOrder = { S: 1, M: 2, L: 3, XL: 4, XXL: 5 }
+                          return sizeOrder[a] - sizeOrder[b]
+                        })
+                        .map(sizeKey => {
+                          if (sizes[color][sizeKey] > 0) {
+                            return <option key={sizeKey}>{sizeKey}</option>
+                          }
+                          return null // Return null for sizes with zero quantity
+                        })}
                     </select>
                     <span className='absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center'>
                       <svg
@@ -189,43 +248,24 @@ const Slug = ({ addToCart }) => {
                   </div>
                 </div>
               </div>
+              {/* Price and Buy Now buttons */}
+
               <div className='flex'>
-                <span className='title-font font-medium text-2xl text-gray-900'>
-                  $58.00
-                </span>
-                <button className='flex ml-8 text-white bg-pink-500 border-0 py-2 px-2 focus:outline-none hover:bg-pink-600 rounded'>
-                  Buy Now
-                </button>{' '}
-                <button
-                  onClick={() => {
-                    addToCart({
-                      itemCode: '1234',
-                      qty: 2,
-                      price: 123,
-                      name: 't-shirts',
-                      size: 'M',
-                      variant: 'white'
-                    })
-                  }}
-                  className='flex ml-2 text-white bg-pink-500 border-0 py-2 px-2 focus:outline-none hover:bg-pink-600 rounded'
+                <span
+                  className='title-font font-medium text-2xl text-gray-900 flex py-2 px-5 focus:outline-none rounded'
+                  style={{ textDecoration: 'line-through', opacity: 0.6 }}
                 >
-                  Add to Cart
-                </button>
-                <button className='rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4'>
-                  <svg
-                    fill='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    className='w-5 h-5'
-                    viewBox='0 0 24 24'
-                  >
-                    <path d='M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z'></path>
-                  </svg>
-                </button>
+                  $68.00
+                </span>
+                <span className='title-font font-medium text-2xl text-black-1000 flex py-2 px-5 focus:outline-none rounded'>
+                  $58.00
+                  <sup style={{ fontSize: '1rem', fontWeight: 'normal' }}>
+                    (Free Shipping)
+                  </sup>
+                </span>
               </div>
-              <hr className='mt-5' />
-              <p className='mt-5'>check pincode service availibility</p>
+
+              <p className='mt-0'>Check pincode service availability</p>
               <div className='flex md:flex-nowrap flex-wrap  items-end md:justify-start'>
                 <div className='relative sm:w-64  sm:mr-4 mt-2 mr-2'>
                   <input
@@ -257,12 +297,57 @@ const Slug = ({ addToCart }) => {
               >
                 {pinStatus.msg}
               </p>
+
+              <hr className='mt-3' />
+              <div className='flex mt-5'>
+                <button className='flex text-white bg-pink-500 border-0 py-2 px-5 focus:outline-none hover:bg-pink-600 rounded'>
+                  Buy Now
+                </button>{' '}
+                <button
+                  onClick={() => {
+                    // Add to cart functionality
+                  }}
+                  className='flex ml-5 text-white bg-pink-500 border-0 py-2 px-5 focus:outline-none hover:bg-pink-600 rounded'
+                >
+                  Add to Cart
+                </button>
+                <button className='rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4'>
+                  <svg
+                    fill='currentColor'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    className='w-5 h-5'
+                    viewBox='0 0 24 24'
+                  >
+                    <path d='M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z'></path>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </section>
     </div>
   )
+}
+
+export const getServerSideProps = async context => {
+  // Fetch data from external API
+  const response = await fetch(
+    'http://localhost:3000/api/getProduct?slug=' + context.query.slug
+  )
+  const data = await response.json()
+
+  let colors = {}
+  let sizes = {}
+
+  data.products[0].variants.map(item => {
+    colors[item.color] = item.images
+    sizes[item.color] = item.sizes
+  })
+  // Pass data to the page via props
+  return { props: { product: data.products[0], colors, sizes } }
 }
 
 export default Slug
