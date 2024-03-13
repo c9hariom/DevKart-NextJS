@@ -63,7 +63,7 @@ const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
               </span>
             </button>
             {isCartOpen && (
-              <div className='fixed top-0 right-0 bottom-0 bg-white shadow-lg p-4 w-[360px] z-10'>
+              <div className='fixed top-0 right-0 bottom-0 bg-white shadow-lg p-4 w-[360px] z-10  overflow-y-scroll'>
                 <div className='flex justify-between items-center mb-4'>
                   <h2 className='text-lg font-bold'>Your Cart</h2>
                   <button className='text-gray-600' onClick={toggleCart}>
