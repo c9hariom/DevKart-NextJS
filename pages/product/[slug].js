@@ -118,10 +118,10 @@ const Slug = ({
 
             <div className='lg:w-5/12 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 px-4'>
               <h2 className='text-sm title-font text-gray-500 tracking-widest'>
-                {product.brand}
+              {product.brand.slice(0,1).toUpperCase()+product.brand.slice(1)}
               </h2>
               <h1 className='text-gray-900 text-3xl title-font font-medium mb-1'>
-                {product.title} ({size}/{color})
+                {product.title} ({size}/{color.slice(0,1).toUpperCase()+color.slice(1)})
               </h1>
               {/* Star rating icons and social sharing */}
               <div className='flex mb-4'>

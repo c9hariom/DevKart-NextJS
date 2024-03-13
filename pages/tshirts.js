@@ -24,7 +24,7 @@ const Tshirts = ({ products }) => {
                     />
                     <div className='mt-4 flex flex-col items-center justify-center'>
                       <h3 className='text-gray-500 text-xs tracking-widest title-font mb-1'>
-                        {item.category}
+                      {item.brand.slice(0,1).toUpperCase()+item.brand.slice(1)}/{item.category.slice(0,1).toUpperCase()+item.category.slice(1)}
                       </h3>
                       <h2 className='text-gray-900 title-font text-lg font-medium'>
                         {item.title}
@@ -36,7 +36,7 @@ const Tshirts = ({ products }) => {
                               <div
                                 key={item.color}
                                 title={item.color}
-                                className={`w-3 h-3 border shadow-inner bg-${item.color}-700 rounded-full`}
+                                className={`w-4 h-4 border shadow-inner bg-${item.color}-700 rounded-full`}
                                 style={{ backgroundColor: item.color }}
                               ></div>
                             )
