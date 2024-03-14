@@ -8,6 +8,7 @@ const Hoodies = ({ products }) => {
       <section className='text-gray-600 body-font'>
         <div className='container px-5 py-24 mx-auto'>
           <div className='flex flex-wrap -m-4  justify-center'>
+            {products.length ===0 && <p>Sorry All the Hoodies are currently out of stock. New stock is coming soon.</p>}
             {products.map(item => {
               return (
                 <div

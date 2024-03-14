@@ -22,7 +22,7 @@ const handler = async (req, res) => {
 
       // Get total count of products
       const totalCount = await Product.countDocuments({
-        availableQty: { $gt: 0 }
+        availableQty: { $gt: 0 } , category
       })
 
       // Calculate total pages
