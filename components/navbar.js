@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { FaCartPlus } from 'react-icons/fa6'
 import { RxCross1 } from 'react-icons/rx'
 import { FaPlus, FaMinus } from 'react-icons/fa'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
   const [isCartOpen, setIsCartOpen] = useState(false)
@@ -10,9 +12,11 @@ const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen)
   }
+
   return (
     <div>
       <header className='text-gray-600 body-font'>
+        <ToastContainer></ToastContainer>
         <div className='container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center'>
           <Link
             href='/'
@@ -158,11 +162,26 @@ const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
 
                 <br />
                 <Link
-                  href='/checkout'
+                  href={subTotal === 0 ? '#' : '/checkout'}
                   className='m-2 inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded'
+                  onClick={() => {
+                    if (subTotal === 0) {
+                      toast("Cart is empty, can't checkout!", {
+                        position: 'top-left',
+                        autoClose: 1200,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: 'light'
+                      })
+                    }
+                  }}
                 >
                   Checkout
                 </Link>
+
                 <button
                   onClick={clearCart}
                   className='inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded'

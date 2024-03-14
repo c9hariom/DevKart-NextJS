@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Link from 'next/link'
+import { toast } from 'react-toastify'
 
 const Checkout = ({ cart, subTotal }) => {
   let shipping = 8
@@ -317,7 +318,23 @@ const Checkout = ({ cart, subTotal }) => {
                 </p>
               </div>
             </div>
-            <Link href='/order'>
+            <Link
+              href={subTotal !== 0 ? '/order' : '#'}
+              onClick={() => {
+                if (subTotal === 0) {
+                  toast("Cart is empty, can't place order!", {
+                    position: 'top-left',
+                    autoClose: 1200,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'light'
+                  })
+                }
+              }}
+            >
               <button className='mt-4 mb-8 w-full rounded-md bg-red-500 px-6 py-3 font-medium text-white'>
                 Place Order
               </button>
