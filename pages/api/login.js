@@ -1,6 +1,7 @@
 import connectDb from '@/middleware/mongoose'
 import User from '@/models/User'
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const handler = async (req, res) => {
   if (req.method === 'POST') {
@@ -18,9 +19,14 @@ const handler = async (req, res) => {
       }
 
       if (result) {
-        res
-          .status(200)
-          .json({ name: user.name, _id: user._id, email: user.email })
+        let authToken = jwt.sign(
+          { _id: user._id, name: user.name, email: user.email },
+          'hj@*(&#hjadjhg@*&^#jhs',
+          {
+            expiresIn: '2d'
+          }
+        )
+        res.status(200).json({ authToken, name: user.name, email: user.email })
       } else {
         res.status(404).json({ status: 'Wrong credentials' })
       }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FaCartPlus } from 'react-icons/fa6'
 import { RxCross1 } from 'react-icons/rx'
@@ -6,11 +6,32 @@ import { FaPlus, FaMinus } from 'react-icons/fa'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
+const Navbar = ({
+  clearCart,
+  addToCart,
+  removeFromCart,
+  subTotal,
+  cart,
+  userAuth,
+  handleLogin
+}) => {
   const [isCartOpen, setIsCartOpen] = useState(false)
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen)
+  }
+
+  const [toggle, setToggle] = useState('hidden')
+  const handleToggle = () => {
+    console.log('clicked')
+    if (toggle === 'hidden') {
+      setToggle('')
+      setTimeout(() => {
+        setToggle('hidden')
+      }, 4000)
+    } else {
+      setToggle('hidden')
+    }
   }
 
   return (
@@ -192,11 +213,56 @@ const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
             )}
           </div>
 
-          <Link
-            href='/auth/login'
+          <div className='relative ml-3'>
+            <div>
+              <button
+                type='button'
+                className='relative flex rounded-full bg-red-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-red-500'
+                id='user-menu-button'
+                aria-expanded='false'
+                aria-haspopup='true'
+                onClick={handleToggle}
+              >
+                <img className='h-8 w-8 rounded-full' src='/user.png' alt='' />
+              </button>
+            </div>
+            <button
+              className={`${toggle} absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+              role='menu'
+              aria-orientation='vertical'
+              aria-labelledby='user-menu-button'
+              tabIndex='-1'
+              id='user-menu'
+            >
+              {userAuth.name !== '' && (
+                <a
+                  href='#'
+                  className='block px-4 py-2 text-sm text-gray-700'
+                  role='menuitem'
+                  tabIndex='-1'
+                  id='user-menu-item-0'
+                >
+                  Profile
+                </a>
+              )}
+              <a
+                href='#'
+                className='block px-4 py-2 text-sm text-gray-700'
+                role='menuitem'
+                tabIndex='-1'
+                id='user-menu-item-2'
+                onClick={handleLogin}
+              >
+                {userAuth.name === '' ? 'Sign In' : 'Sign Out'}
+              </a>
+            </button>
+          </div>
+
+          {/* <button
+            onClick={handleLogin}
             className='inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0'
           >
-            Login
+            {userAuth.name || "Login"}
             <svg
               fill='none'
               stroke='currentColor'
@@ -208,7 +274,7 @@ const Navbar = ({ clearCart, addToCart, removeFromCart, subTotal, cart }) => {
             >
               <path d='M5 12h14M12 5l7 7-7 7'></path>
             </svg>
-          </Link>
+          </button> */}
         </div>
       </header>
     </div>

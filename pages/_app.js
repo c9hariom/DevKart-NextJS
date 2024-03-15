@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 export default function App ({ Component, pageProps }) {
-
   const router = useRouter()
 
   const [cart, setCart] = useState({})
@@ -33,7 +32,7 @@ export default function App ({ Component, pageProps }) {
   }, [])
 
   const buyNow = ({ itemCode, qty, price, name, size, variant, img, max }) => {
-    localStorage.removeItem("cart")
+    localStorage.removeItem('cart')
 
     let newCart = {}
     newCart[itemCode + '_2_' + variant + '_2_' + size] = {
@@ -49,8 +48,7 @@ export default function App ({ Component, pageProps }) {
     setCart(newCart)
     saveCart(newCart)
 
-   router.push("/checkout")
-
+    router.push('/checkout')
   }
 
   const addToCart = ({
@@ -129,6 +127,32 @@ export default function App ({ Component, pageProps }) {
     setCart({})
     saveCart({})
   }
+  const [userAuth, setUserAuth] = useState({
+    name: '',
+    email: '',
+    authToken: ''
+  })
+  useEffect(() => {
+    let userAuth = JSON.parse(localStorage.getItem('userAuth'))
+    if (userAuth) {
+      setUserAuth(userAuth)
+    }
+  }, [])
+
+  const handleLogin = () => {
+    console.log('login')
+    if (userAuth.name !== '') {
+      localStorage.removeItem('userAuth')
+      setUserAuth({
+        name: '',
+        email: '',
+        authToken: ''
+      })
+      router.push('/auth/login')
+    } else {
+      router.push('/auth/login')
+    }
+  }
 
   return (
     <>
@@ -137,6 +161,8 @@ export default function App ({ Component, pageProps }) {
         <meta name='description' content='Your page description' />
       </Head>
       <Navbar
+        handleLogin={handleLogin}
+        userAuth={userAuth}
         addToCart={addToCart}
         cart={cart}
         removeFromCart={removeFromCart}
@@ -144,6 +170,9 @@ export default function App ({ Component, pageProps }) {
         subTotal={subTotal}
       />
       <Component
+        handleLogin={handleLogin}
+        userAuth={userAuth}
+        setUserAuth={setUserAuth}
         {...pageProps}
         buyNow={buyNow}
         addToCart={addToCart}

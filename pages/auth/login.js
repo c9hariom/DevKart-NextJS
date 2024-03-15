@@ -1,8 +1,9 @@
 import Link from 'next/link'
+import Router from 'next/router'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 
-const Login = () => {
+const Login = ({ setUserAuth }) => {
   const [auth, setAuth] = useState({
     email: '',
     password: ''
@@ -28,34 +29,42 @@ const Login = () => {
     })
 
     const data = await response.json()
-    console.log(data)
 
-    if(data.email === auth.email){
-        toast('Hi '+data.name+' good to see you back', {
-            position: 'top-left',
-            autoClose: 1200,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light',
-            type: 'success'
-          })
-    } else{
-        toast('Oops '+data.status, {
-            position: 'top-left',
-            autoClose: 1200,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light',
-            type: 'error'
-          })
+    if (data.authToken) {
+      let userAuth = {
+        name: data.name,
+        email: data.email,
+        authToken: data.authToken
+      }
+      localStorage.setItem('userAuth', JSON.stringify(userAuth))
+      toast('Hi ' + data.name + ' good to see you back', {
+        position: 'top-left',
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        type: 'success'
+      })
+      setTimeout(() => {
+        setUserAuth(userAuth)
+        Router.push('/')
+      }, 1200)
+    } else {
+      toast('Oops ' + data.status, {
+        position: 'top-left',
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        type: 'error'
+      })
     }
-
   }
 
   return (
