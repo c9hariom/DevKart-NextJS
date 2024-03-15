@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Footer from '@/components/footer'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import LoadingBar from 'react-top-loading-bar'
 
 export default function App ({ Component, pageProps }) {
   const router = useRouter()
@@ -132,7 +133,18 @@ export default function App ({ Component, pageProps }) {
     email: '',
     authToken: ''
   })
+
+  const [progress, setProgress] = useState(0)
+
   useEffect(() => {
+    router.events.on('routeChangeStart', () => {
+      setProgress(40)
+    })
+
+    router.events.on('routeChangeComplete', () => {
+      setProgress(100)
+    })
+
     let userAuth = JSON.parse(localStorage.getItem('userAuth'))
     if (userAuth) {
       setUserAuth(userAuth)
@@ -160,6 +172,11 @@ export default function App ({ Component, pageProps }) {
         <title>DevKart - e-com for devs</title>
         <meta name='description' content='Your page description' />
       </Head>
+      <LoadingBar
+        color='#f11946'
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
       <Navbar
         handleLogin={handleLogin}
         userAuth={userAuth}

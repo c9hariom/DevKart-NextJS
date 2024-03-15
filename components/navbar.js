@@ -213,48 +213,61 @@ const Navbar = ({
             )}
           </div>
 
-          <div className='relative ml-3'>
+          <div className='relative'>
             <div>
               <button
                 type='button'
-                className='relative flex rounded-full bg-red-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-red-500'
+                className='relative flex rounded-full  text-sm focus:outline-none  '
                 id='user-menu-button'
                 aria-expanded='false'
                 aria-haspopup='true'
                 onClick={handleToggle}
               >
-                <img className='h-8 w-8 rounded-full' src='/user.png' alt='' />
+                <img className='h-8 w-8 rounded' src='/user.png' alt='' />
               </button>
             </div>
             <button
-              className={`${toggle} absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+              className={`${toggle} absolute right-0 z-5 mt-2 w-28 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
               role='menu'
               aria-orientation='vertical'
               aria-labelledby='user-menu-button'
               tabIndex='-1'
               id='user-menu'
             >
-              {userAuth.name !== '' && (
+              <div className='items-left justify-content-start'>
+                {userAuth.name !== '' && (
+                  <a
+                    href='#'
+                    className='block  py-1 text-sm text-gray-700'
+                    role='menuitem'
+                    tabIndex='-1'
+                    id='user-menu-item-0'
+                  >
+                    My Account
+                  </a>
+                )}
+                {userAuth.name !== '' && (
+                  <a
+                    href='#'
+                    className='block  py-1 text-sm text-gray-700'
+                    role='menuitem'
+                    tabIndex='-1'
+                    id='user-menu-item-0'
+                  >
+                    Orders
+                  </a>
+                )}
                 <a
                   href='#'
-                  className='block px-4 py-2 text-sm text-gray-700'
+                  className='block px-4 py-1 text-sm text-gray-700'
                   role='menuitem'
                   tabIndex='-1'
-                  id='user-menu-item-0'
+                  id='user-menu-item-2'
+                  onClick={handleLogin}
                 >
-                  Profile
+                  {userAuth.name === '' ? 'Sign In' : 'Sign Out'}
                 </a>
-              )}
-              <a
-                href='#'
-                className='block px-4 py-2 text-sm text-gray-700'
-                role='menuitem'
-                tabIndex='-1'
-                id='user-menu-item-2'
-                onClick={handleLogin}
-              >
-                {userAuth.name === '' ? 'Sign In' : 'Sign Out'}
-              </a>
+              </div>
             </button>
           </div>
 
