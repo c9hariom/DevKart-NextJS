@@ -20,7 +20,7 @@ const Login = ({ setUserAuth }) => {
   const handleSubmit = async e => {
     e.preventDefault()
     const { email, password } = auth
-    const response = await fetch('http://localhost:3000/api/login', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}api/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

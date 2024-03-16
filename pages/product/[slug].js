@@ -399,7 +399,7 @@ const Slug = ({
 export const getServerSideProps = async context => {
   // Fetch data from external API
   const response = await fetch(
-    'http://localhost:3000/api/getProduct?slug=' + context.query.slug
+    `${process.env.HOST}api/getProduct?slug=` + context.query.slug
   )
   const data = await response.json()
 
