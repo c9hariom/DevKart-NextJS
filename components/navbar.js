@@ -234,40 +234,43 @@ const Navbar = ({
               tabIndex='-1'
               id='user-menu'
             >
-              <div className='items-left justify-content-start'>
-                {userAuth.name !== '' && (
-                  <a
-                    href='#'
-                    className='block  py-1 text-sm text-gray-700'
-                    role='menuitem'
-                    tabIndex='-1'
-                    id='user-menu-item-0'
-                  >
-                    My Account
-                  </a>
-                )}
-                {userAuth.name !== '' && (
-                  <a
-                    href='#'
-                    className='block  py-1 text-sm text-gray-700'
-                    role='menuitem'
-                    tabIndex='-1'
-                    id='user-menu-item-0'
-                  >
-                    Orders
-                  </a>
-                )}
-                <a
-                  href='#'
-                  className='block px-4 py-1 text-sm text-gray-700'
-                  role='menuitem'
-                  tabIndex='-1'
-                  id='user-menu-item-2'
-                  onClick={handleLogin}
-                >
-                  {userAuth.name === '' ? 'Sign In' : 'Sign Out'}
-                </a>
-              </div>
+              <div className='justify-content-start'>
+  <div className='items-left'>
+    {userAuth.name !== '' && (
+      <Link
+        href='/user/profile'
+        className='block  py-1 text-sm text-gray-700'
+        role='menuitem'
+        tabIndex='-1'
+        id='user-menu-item-0'
+      >
+        My Account
+      </Link>
+    )}
+    {userAuth.name !== '' && (
+      <Link
+        href='/user/orders'
+        className='block  py-1 text-sm text-gray-700'
+        role='menuitem'
+        tabIndex='-1'
+        id='user-menu-item-1'
+      >
+        Orders
+      </Link>
+    )}
+    <a
+      href='#'
+      className='block px-4 py-1 text-sm text-gray-700'
+      role='menuitem'
+      tabIndex='-1'
+      id='user-menu-item-2'
+      onClick={handleLogin}
+    >
+      {userAuth.name === '' ? 'Sign In' : 'Sign Out'}
+    </a>
+  </div>
+</div>
+
             </button>
           </div>
 

@@ -51,7 +51,7 @@ const Login = ({ setUserAuth }) => {
       setTimeout(() => {
         setUserAuth(userAuth)
         Router.push('/')
-      }, 1200)
+      }, 400)
     } else {
       toast('Oops ' + data.status, {
         position: 'top-left',
