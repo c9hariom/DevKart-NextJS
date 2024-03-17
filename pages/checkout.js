@@ -1,12 +1,86 @@
 import React, { useEffect } from 'react'
 import Link from 'next/link'
 import { toast } from 'react-toastify'
+import Head from 'next/head'
+const crypto = require('crypto')
 
 const Checkout = ({ cart, subTotal }) => {
   let shipping = 8
 
+  const checkoutHandler = async amount => {
+    const response = await fetch('http://localhost:3000/api/razorpay', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ amount })
+    })
+
+    const data = await response.json()
+    console.log(data)
+
+    var options = {
+      key: process.env.RAZOR_KEY,
+      amount: data.amount,
+      currency: 'INR',
+      name: 'Devkart',
+      description: 'Test Transaction',
+      image: '',
+      order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      handler: function (response) {
+        alert(response.razorpay_payment_id)
+        alert(response.razorpay_order_id)
+        alert(response.razorpay_signature)
+
+        console.log(response)
+
+        const generated_signature = crypto
+          .createHmac('sha256', 'E7nfrqiAf055GZ75RvcbXdyh')
+          .update(
+            response.razorpay_order_id + '|' + response.razorpay_payment_id
+          )
+          .digest('hex')
+
+        // hmac_sha256(response.razorpay_order_id + "|" + response.razorpay_signature, process.env.RAZOR_SECRET);
+
+        if (generated_signature == response.razorpay_signature) {
+          console.log('success')
+          console.log(generated_signature)
+        } else {
+          console.log(generated_signature)
+          console.log('payment error')
+        }
+      },
+      prefill: {
+        name: 'Gaurav Kumar',
+        email: 'gaurav.kumar@example.com',
+        contact: '9000090000'
+      },
+      notes: {
+        address: 'Razorpay Corporate Office'
+      },
+      theme: {
+        color: '#3399cc'
+      }
+    }
+    var rzp1 = new Razorpay(options)
+    rzp1.on('payment.failed', function (response) {
+      alert(response.error.code)
+      alert(response.error.description)
+      alert(response.error.source)
+      alert(response.error.step)
+      alert(response.error.reason)
+      alert(response.error.metadata.order_id)
+      alert(response.error.metadata.payment_id)
+    })
+    rzp1.open()
+  }
+
   return (
     <div className='container m-auto'>
+      <Head>
+        <script src='https://checkout.razorpay.com/v1/checkout.js'></script>
+      </Head>
       <h1 className='font-bold text-xl text-center m-8'>Checkout</h1>
       <div className='mx-auto'>
         <div className='flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32'>
@@ -319,7 +393,7 @@ const Checkout = ({ cart, subTotal }) => {
               </div>
             </div>
             <Link
-              href={subTotal !== 0 ? '/order' : '#'}
+              href={'#'}
               onClick={() => {
                 if (subTotal === 0) {
                   toast("Cart is empty, can't place order!", {
@@ -335,7 +409,13 @@ const Checkout = ({ cart, subTotal }) => {
                 }
               }}
             >
-              <button className='mt-4 mb-8 w-full rounded-md bg-red-500 px-6 py-3 font-medium text-white'>
+              <button
+                id='rzp-button1'
+                onClick={() => {
+                  checkoutHandler(1)
+                }}
+                className='mt-4 mb-8 w-full rounded-md bg-red-500 px-6 py-3 font-medium text-white'
+              >
                 Place Order
               </button>
             </Link>
