@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const OrderSchema = new mongoose.Schema(
   {
-    userId: {
+    email: {
       type: String,
       required: true
     },

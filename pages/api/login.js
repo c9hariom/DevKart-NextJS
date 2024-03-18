@@ -21,7 +21,7 @@ const handler = async (req, res) => {
       if (result) {
         let authToken = jwt.sign(
           { _id: user._id, name: user.name, email: user.email },
-          'hj@*(&#hjadjhg@*&^#jhs',
+          process.env.JWT_SECRET,
           {
             expiresIn: '2d'
           }

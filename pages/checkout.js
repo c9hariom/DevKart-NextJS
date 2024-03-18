@@ -1,20 +1,55 @@
 import React, { useEffect } from 'react'
-import Link from 'next/link'
 import { toast } from 'react-toastify'
 import Head from 'next/head'
+import Router from 'next/router'
 const crypto = require('crypto')
 
-const Checkout = ({ cart, subTotal }) => {
+const Checkout = ({ cart, subTotal, userAuth }) => {
   let shipping = 8
 
   const checkoutHandler = async amount => {
-    const response = await fetch('http://localhost:3000/api/razorpay', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ amount })
-    })
+    if (amount === 0) {
+      toast("Cart is empty, can't place order!", {
+        position: 'top-left',
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        type: 'warning'
+      })
+      Router.push('/')
+      return null
+    }
+
+    if (userAuth.name === '') {
+      toast('Pls login before initiating checkout', {
+        position: 'top-left',
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        type: 'error'
+      })
+      Router.push('/auth/login')
+      return null
+    }
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_HOST}api/pretransaction`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ amount })
+      }
+    )
 
     const data = await response.json()
     console.log(data)
@@ -27,52 +62,52 @@ const Checkout = ({ cart, subTotal }) => {
       description: 'Test Transaction',
       image: '',
       order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      handler: function (response) {
-        alert(response.razorpay_payment_id)
-        alert(response.razorpay_order_id)
-        alert(response.razorpay_signature)
+      // handler: function (response) {
+      //   alert(response.razorpay_payment_id)
+      //   alert(response.razorpay_order_id)
+      //   alert(response.razorpay_signature)
 
-        console.log(response)
+      //   console.log(response)
 
-        const generated_signature = crypto
-          .createHmac('sha256', 'E7nfrqiAf055GZ75RvcbXdyh')
-          .update(
-            response.razorpay_order_id + '|' + response.razorpay_payment_id
-          )
-          .digest('hex')
+      //   const generated_signature = crypto
+      //     .createHmac('sha256', 'E7nfrqiAf055GZ75RvcbXdyh')
+      //     .update(
+      //       response.razorpay_order_id + '|' + response.razorpay_payment_id
+      //     )
+      //     .digest('hex')
 
-        // hmac_sha256(response.razorpay_order_id + "|" + response.razorpay_signature, process.env.RAZOR_SECRET);
+      //   // hmac_sha256(response.razorpay_order_id + "|" + response.razorpay_signature, process.env.RAZOR_SECRET);
 
-        if (generated_signature == response.razorpay_signature) {
-          console.log('success')
-          console.log(generated_signature)
-        } else {
-          console.log(generated_signature)
-          console.log('payment error')
-        }
-      },
+      //   if (generated_signature == response.razorpay_signature) {
+      //     console.log('success')
+      //     console.log(generated_signature)
+      //   } else {
+      //     console.log(generated_signature)
+      //     console.log('payment error')
+      //   }
+      // },
+      callback_url: `${process.env.NEXT_PUBLIC_HOST}api/posttransaction`,
       prefill: {
-        name: 'Gaurav Kumar',
-        email: 'gaurav.kumar@example.com',
-        contact: '9000090000'
+        name: userAuth.name,
+        email: userAuth.email
       },
       notes: {
         address: 'Razorpay Corporate Office'
       },
       theme: {
-        color: '#3399cc'
+        color: '#ef4444'
       }
     }
     var rzp1 = new Razorpay(options)
-    rzp1.on('payment.failed', function (response) {
-      alert(response.error.code)
-      alert(response.error.description)
-      alert(response.error.source)
-      alert(response.error.step)
-      alert(response.error.reason)
-      alert(response.error.metadata.order_id)
-      alert(response.error.metadata.payment_id)
-    })
+    // rzp1.on('payment.failed', function (response) {
+    //   alert(response.error.code)
+    //   alert(response.error.description)
+    //   alert(response.error.source)
+    //   alert(response.error.step)
+    //   alert(response.error.reason)
+    //   alert(response.error.metadata.order_id)
+    //   alert(response.error.metadata.payment_id)
+    // })
     rzp1.open()
   }
 
@@ -381,44 +416,33 @@ const Checkout = ({ cart, subTotal }) => {
                 <div className='flex items-center justify-between'>
                   <p className='text-sm font-medium text-gray-900'>Shipping</p>
                   <p className='font-semibold text-gray-900'>
-                    ${Object.keys(cart).length === 0 ? 0 : 8}
+                    +${Object.keys(cart).length === 0 ? 0 : 8}
+                  </p>
+                </div>
+                <div className='flex items-center justify-between'>
+                  <p className='text-sm font-medium text-gray-900'></p>
+                  <p className='font-semibold text-gray-900'>
+                    -${Object.keys(cart).length === 0 ? 0 : 8}
                   </p>
                 </div>
               </div>
               <div className='mt-6 flex items-center justify-between'>
                 <p className='text-sm font-medium text-gray-900'>Total</p>
                 <p className='text-2xl font-semibold text-gray-900'>
-                  ${subTotal + (+Object.keys(cart).length === 0 ? 0 : 8)}
+                  ${subTotal + (+Object.keys(cart).length === 0 ? 0 : 0)}
                 </p>
               </div>
             </div>
-            <Link
-              href={'#'}
+
+            <button
+              id='rzp-button1'
               onClick={() => {
-                if (subTotal === 0) {
-                  toast("Cart is empty, can't place order!", {
-                    position: 'top-left',
-                    autoClose: 1200,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light'
-                  })
-                }
+                checkoutHandler(subTotal)
               }}
+              className='mt-4 mb-8 w-full rounded-md bg-red-500 px-6 py-3 font-medium text-white'
             >
-              <button
-                id='rzp-button1'
-                onClick={() => {
-                  checkoutHandler(1)
-                }}
-                className='mt-4 mb-8 w-full rounded-md bg-red-500 px-6 py-3 font-medium text-white'
-              >
-                Place Order
-              </button>
-            </Link>
+              Place Order
+            </button>
           </div>
         </div>
       </div>

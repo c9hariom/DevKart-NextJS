@@ -195,7 +195,8 @@ const Navbar = ({
                         pauseOnHover: true,
                         draggable: true,
                         progress: undefined,
-                        theme: 'light'
+                        theme: 'light',
+                        type: 'success'
                       })
                     }
                   }}
