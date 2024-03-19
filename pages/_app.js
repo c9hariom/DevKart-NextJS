@@ -12,6 +12,12 @@ export default function App ({ Component, pageProps }) {
   const [cart, setCart] = useState({})
   const [subTotal, setSubTotal] = useState(0)
 
+  const [isCartOpen, setIsCartOpen] = useState(false)
+
+  const toggleCart = () => {
+    setIsCartOpen(!isCartOpen)
+  }
+
   useEffect(() => {
     try {
       const storedCart = localStorage.getItem('cart')
@@ -179,6 +185,8 @@ export default function App ({ Component, pageProps }) {
       />
       <Navbar
         handleLogin={handleLogin}
+        toggleCart={toggleCart}
+        isCartOpen={isCartOpen}
         userAuth={userAuth}
         addToCart={addToCart}
         cart={cart}
@@ -188,6 +196,8 @@ export default function App ({ Component, pageProps }) {
       />
       <Component
         handleLogin={handleLogin}
+        toggleCart={toggleCart}
+        isCartOpen={isCartOpen}
         userAuth={userAuth}
         setUserAuth={setUserAuth}
         {...pageProps}

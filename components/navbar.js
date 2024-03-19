@@ -13,13 +13,11 @@ const Navbar = ({
   subTotal,
   cart,
   userAuth,
-  handleLogin
+  handleLogin,
+  toggleCart,
+  isCartOpen
 }) => {
-  const [isCartOpen, setIsCartOpen] = useState(false)
-
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen)
-  }
+  
 
   const [toggle, setToggle] = useState('hidden')
   const handleToggle = () => {
