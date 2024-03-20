@@ -402,6 +402,14 @@ export const getServerSideProps = async context => {
     `${process.env.HOST}api/getProduct?slug=` + context.query.slug
   )
   const data = await response.json()
+  if (data.products.length == 0) {
+    return {
+      redirect: {
+        destination: '/error', // Path to the error page
+        permanent: false
+      }
+    }
+  }
 
   let colors = {}
   let sizes = {}
@@ -409,32 +417,31 @@ export const getServerSideProps = async context => {
     firstColor = null,
     firstMax = null
 
-    const sizeOrder = ['S', 'M', 'L', 'XL', 'XXL'];
+  const sizeOrder = ['S', 'M', 'L', 'XL', 'XXL']
 
-    data.products[0].variants.forEach(item => {
-      let keys = Object.keys(item.sizes);
-      sizeOrder.forEach(size => {
-        if (keys.includes(size) && item.sizes[size] > 0) {
-          if (!colors[item.color]) {
-            if (firstColor === null) {
-              firstColor = item.color;
-            }
-            colors[item.color] = item.images;
+  data.products[0].variants.forEach(item => {
+    let keys = Object.keys(item.sizes)
+    sizeOrder.forEach(size => {
+      if (keys.includes(size) && item.sizes[size] > 0) {
+        if (!colors[item.color]) {
+          if (firstColor === null) {
+            firstColor = item.color
           }
-          if (!sizes[item.color]) {
-            sizes[item.color] = {};
-          }
-          sizes[item.color][size] = item.sizes[size];
-          if (firstColor === item.color && firstSize === null) {
-            firstSize = size;
-            if (firstMax === null) {
-              firstMax = item.sizes[size];
-            }
+          colors[item.color] = item.images
+        }
+        if (!sizes[item.color]) {
+          sizes[item.color] = {}
+        }
+        sizes[item.color][size] = item.sizes[size]
+        if (firstColor === item.color && firstSize === null) {
+          firstSize = size
+          if (firstMax === null) {
+            firstMax = item.sizes[size]
           }
         }
-      });
-    });
-    
+      }
+    })
+  })
 
   let price = Math.floor(
     data.products[0].price -

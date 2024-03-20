@@ -69,7 +69,7 @@ const Order = ({ cart, userAuth, orderId  , clearCart}) => {
     const fetchOrderData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/getOrder?orderId=${orderId}`
+          `${process.env.NEXT_PUBLIC_HOST}api/getOrder?orderId=${orderId}`
         )
         const data = await response.json()
         setOrderCart(data.products)

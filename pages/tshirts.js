@@ -117,6 +117,7 @@ export const getServerSideProps = async () => {
   // Fetch data from external API
   const response = await fetch(`${process.env.HOST}api/getProducts?category=tshirt`)
   const data = await response.json()
+  console.log(data)
   const products = data.products
   return { props: { products } }
 }
