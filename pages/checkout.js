@@ -17,6 +17,16 @@ const Checkout = ({ cart, subTotal, userAuth  }) => {
     zip: ''
   })
 
+  useEffect(() => {
+    const redirectIfNotLoggedIn = setTimeout(() => {
+      if (!userAuth.name) {
+        Router.push('/auth/login')
+      }
+    }, 100)
+    return () => clearTimeout(redirectIfNotLoggedIn)
+  }, [userAuth])
+
+
   const changeHandler = e => {
     const { name, value } = e.target
     setBilling(prevAuth => ({

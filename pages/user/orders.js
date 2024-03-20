@@ -27,7 +27,7 @@ const Orders = ({ userAuth }) => {
         console.log(data)
 
         if (data.status == 'success') {
-          setOrders(data.order)
+          setOrders(data.order.reverse()          )
         }
       } catch (error) {
         console.error('Error fetching order data:', error)

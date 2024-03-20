@@ -19,7 +19,7 @@ const Tshirts = ({ products, totalPage }) => {
         products.push(data.products[i])
       }
       setPage(page + 1)
-    }, 2000)
+    }, 800)
   }
 
   return (
