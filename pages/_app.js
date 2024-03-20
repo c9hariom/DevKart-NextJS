@@ -172,6 +172,33 @@ export default function App ({ Component, pageProps }) {
     }
   }
 
+  // check user authtoken and handle login and logout at session start
+
+  const [tokenStatus, setTokenStatus] = useState(false)
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/checkToken`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userAuth)
+        })
+        const data = await response.json()
+        if (data.status == 'success') {
+          setTokenStatus(true)
+        } else {
+          localStorage.removeItem('userAuth')
+        }
+      } catch (error) {
+        console.error('Error fetching order data:', error)
+      }
+    }
+    if (!tokenStatus) {
+      checkToken()
+    }
+    return () => {}
+  }, [userAuth.authToken])
+
   return (
     <>
       <Head>
