@@ -1,7 +1,7 @@
 import React, {  useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import Head from 'next/head'
 import Router from 'next/router'
+import Script from 'next/script'
 
 const Checkout = ({ cart, subTotal, userAuth  }) => {
   let shipping = 8
@@ -187,9 +187,9 @@ const Checkout = ({ cart, subTotal, userAuth  }) => {
 
   return (
     <div className='container m-auto'>
-      <Head>
-        <script src='https://checkout.razorpay.com/v1/checkout.js'></script>
-      </Head>
+
+        <Script src='https://checkout.razorpay.com/v1/checkout.js'></Script>
+
       <h1 className='font-bold text-xl text-center m-8'></h1>
       <div className='mx-auto'>
         <div className='flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32'>
