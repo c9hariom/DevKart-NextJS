@@ -208,6 +208,7 @@ export default function App ({ Component, pageProps }) {
       <LoadingBar
         color='#f11946'
         progress={progress}
+        height={4}
         onLoaderFinished={() => setProgress(0)}
       />
       <Navbar

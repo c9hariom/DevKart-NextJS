@@ -28,7 +28,7 @@ const Slug = ({
     }
 
     const response = await fetch(
-      `http://localhost:3000/api/pincode?pin=${pincode}`
+      `${process.env.NEXT_PUBLIC_HOST}api/pincode?pin=${pincode}`
     )
     const data = await response.json()
     setPinStatus({
