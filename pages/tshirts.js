@@ -52,12 +52,17 @@ const Tshirts = ({ products, totalPage }) => {
                   >
                     <Link href={`/product/${item.slug}`}>
                       {/* <a className='block relative h-49 rounded overflow-hidden'> */}
+                      
+                      <div className="flex flex-col items-center justify-center">
                       <Image
-                        alt='ecommerce'
-                        src={item.img}
-                        width={300}
-                        height={100}
-                      />
+                      
+                      alt='ecommerce'
+                      src={item.img}
+                      width={300}
+                      height={100}
+                    />
+                      </div>
+                      
                       <div className='mt-4 flex flex-col items-center justify-center'>
                         <h3 className='text-gray-500 text-xs tracking-widest title-font mb-1'>
                           {item.brand.slice(0, 1).toUpperCase() +
