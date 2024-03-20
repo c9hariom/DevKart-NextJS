@@ -1,13 +1,15 @@
-import { useRouter } from 'next/router'
+import useRouter from 'next/router'
 import React, { useEffect } from 'react'
 
 function Profile ({ userAuth }) {
-  let router = useRouter()
   useEffect(() => {
-    if (!userAuth.name) {
-      router.push('/')
-    }
-  })
+    const redirectIfNotLoggedIn = setTimeout(() => {
+      if (!userAuth.name) {
+        Router.push('/auth/login')
+      }
+    }, 100)
+    return () => clearTimeout(redirectIfNotLoggedIn)
+  }, [userAuth])
 
   return (
     <div className='container m-auto mt-10 lg:w-[50%]'>
